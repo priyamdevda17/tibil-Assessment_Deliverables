@@ -1,0 +1,23 @@
+{
+  "Comment": "E-Commerce Data Pipeline Orchestration",
+  "StartAt": "Run Lambda Ingestion",
+  "States": {
+    "Run Lambda Ingestion": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::lambda:invoke",
+      "Parameters": {
+        "FunctionName": "arn:aws:lambda:us-east-1:082105002980:function:tibil-lambda",
+        "Payload": {}
+      },
+      "Next": "Run Glue Transformation"
+    },
+    "Run Glue Transformation": {
+      "Type": "Task",
+      "Resource": "arn:aws:states:::glue:startJobRun.sync",
+      "Parameters": {
+        "JobName": "tibil-glue"
+      },
+      "End": true
+    }
+  }
+}
